@@ -52,6 +52,7 @@ io.on("connection", (client)=>{
 	});
 
 	client.on("localVideo", data =>{
+		console.log("localvideo");
 		io.emit("localVideo", data);
 	})
 

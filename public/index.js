@@ -204,6 +204,7 @@ addEventListener("keydown", e=>{
 })
 
 socket.on("localVideo", data=>{
+	console.log("locandovideo");
 	localV = document.querySelector(".video");
 	localV.setAttribute("src", data);
 })
