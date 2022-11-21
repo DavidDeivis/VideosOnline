@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io("https://proyecto-service.onrender.com");
 
 let reproducir;
 
