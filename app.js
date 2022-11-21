@@ -21,16 +21,60 @@ const server = app.listen(app.get("PORT"), ()=>{
 
 //WebSockets
 const socket = require("socket.io");
-const io = socket(server);
+// const io = socket(server);
+
+const io = socket(server, {maxHttpBufferSize: 1e300})
+
+let video;
+let url;
 
 io.on("connection", (client)=>{
 	console.log("Nuevo cliente");
 
 
 	client.on("enviarVideo", data =>{
-		console.log(data);
+		// console.log(data);
+
+		// io.to(socketId).emit("enviarVideo", data);
+		//https://socket.io/docs/v3/emit-cheatsheet/
+		//Doraemon op sub español
+		//La información se recibe correctamente, pero debo evitar que se envie al
+		//usuario que envía el vídeo para que no cargue dos veces
+
+		// console.log("servidorRecibido");
+		// console.log(data);
 		io.emit("enviarVideo", data);
 	})
+
+	client.on("consola", data =>{
+		console.log(data);
+	});
+
+	client.on("localVideo", data =>{
+		io.emit("localVideo", data);
+	})
+
+	client.on("changeVideo", data =>{
+
+
+
+		console.log(data);
+		io.broadcast.emit("changeVideo", data)
+	})
+
+	client.on("elemento", data =>{
+		console.log(data);
+		// io.emit("changeVideo", data)
+	})
+
+	client.on("changate", data =>{
+		io.emit("changate", data);
+	})
+
+	// client.on("cargarVideo", data =>{
+	// 	console.log(data);
+	// 	io.emit("cargarVideo", data);
+	// })
 })
 
 
