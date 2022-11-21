@@ -60,7 +60,7 @@ io.on("connection", (client)=>{
 
 
 		console.log(data);
-		io.broadcast.emit("changeVideo", data)
+		io.emit("changeVideo", data)
 	})
 
 	client.on("elemento", data =>{
