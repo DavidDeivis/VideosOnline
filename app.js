@@ -43,6 +43,7 @@ io.on("connection", (client)=>{
 
 		// console.log("servidorRecibido");
 		// console.log(data);
+		console.log("cargandoLocal");
 		io.emit("enviarVideo", data);
 	})
 

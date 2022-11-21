@@ -1,5 +1,5 @@
-const socket = io("https://proyecto-service.onrender.com");
-
+const socket = io();
+//""https://proyecto-service.onrender.com""
 let reproducir;
 
 const archivo = document.querySelector(".archivo");
@@ -178,7 +178,7 @@ socket.on("enviarVideo", data=>{
 
 	// console.log(data);
 
-	console.log("cargando");
+	console.log("cargandoLocal");
 
 	if(!cargado){
 		const webVideo = document.querySelector(".video");
