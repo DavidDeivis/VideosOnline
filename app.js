@@ -23,13 +23,40 @@ const server = app.listen(app.get("PORT"), ()=>{
 const socket = require("socket.io");
 // const io = socket(server);
 
-const io = socket(server, {maxHttpBufferSize: 1e300})
+const io = socket(server, {maxHttpBufferSize: 1000000e8, pingTimeout: 960000})
 
 let video;
 let url;
 
 io.on("connection", (client)=>{
 	console.log("Nuevo cliente");
+
+
+	client.on("urlBlob", data=>{
+
+		// console.log(typeof data);
+
+		// let file = new File([data], 'yt5s.com-Combat gods.mp4', { type: "video/mp4" });
+
+		// console.log(typeof file);
+
+		// let video = new Blob([new Uint8Array(data)], {type: "video/mp4"});
+	 // 	let url = URL.createObjectURL(video);
+
+
+		// console.log(url);
+		io.emit("urlBlob", data);
+	})
+
+
+	client.on("videoYT", data =>{
+		console.log("serverRecibe")
+		io.emit("videoYT", data);
+	})
+
+	client.on("mensaje", data=>{
+		console.log(data);
+	})
 
 
 	client.on("enviarVideo", data =>{
@@ -42,9 +69,9 @@ io.on("connection", (client)=>{
 		//usuario que envía el vídeo para que no cargue dos veces
 
 		// console.log("servidorRecibido");
+		// console.log("serverVideo");
 		// console.log(data);
-		console.log("cargandoLocal");
-		io.emit("enviarVideo", data);
+		client.broadcast.emit("enviarVideo", data);
 	})
 
 	client.on("consola", data =>{
@@ -70,7 +97,8 @@ io.on("connection", (client)=>{
 	})
 
 	client.on("changate", data =>{
-		io.emit("changate", data);
+		console.log("serverRecibe")
+		client.broadcast.emit("changate", data);
 	})
 
 	// client.on("cargarVideo", data =>{
