@@ -9,9 +9,11 @@ let cargado = false;
 
 
 
+
 const linkVideo = document.querySelector(".linkVideo");
 const button = document.querySelector(".buttonVideo");
 const capaVideo = document.querySelector(".capaVideo");
+const serverURL = document.querySelector(".video");
 
 // button.addEventListener("click", e=>{
 // 	const link = linkVideo.value;
@@ -38,6 +40,38 @@ const capaVideo = document.querySelector(".capaVideo");
 // 	// capaVideo.setAttribute("src", link2);
 
 // })
+
+socket.on("urlServer", data=>{
+	console.log(data);
+	//blob:nodedata:41be0346-3358-4901-94c3-3991a4bac144
+	//blob:nodedata:0ad988e7-a633-415f-ad81-ce67d7402ca0
+
+	// const urlserver1 = data.split(":");
+	// const urlserver2 = "blob:http://192.168.0.105:3000/" + urlserver1[2];
+
+	// console.log(urlserver2);
+
+
+
+	serverURL.setAttribute("src", data);
+
+
+	 // let file = new File([data], 'yt5s.com-Combat gods.mp4')
+	 // console.log(file);
+
+	 //  const reader = new FileReader();
+	 // reader.readAsArrayBuffer(file);
+
+	 // reader.addEventListener("load", e=>{
+
+		// let video = new Blob([new Uint8Array(e.currentTarget.result)], {type: "video/mp4"});
+	 // 	let url = URL.createObjectURL(video);
+
+	 // 	serverURL.setAttribute("src", url);
+
+	 // });
+
+})
 
 socket.on("videoYT", data=>{
 	capaVideo.setAttribute("src", data);
@@ -70,14 +104,26 @@ function cargar(ar){
 
 	 	// console.log(typeof tenten);
 	 	// console.log(tenten);
-	
 
-	 	let video = new Blob([new Uint8Array(e.currentTarget.result)], {type: "video/mp4"});
-	 	let url = URL.createObjectURL(video);
 
-	 	// console.log(url);
+	 	// let video = new Blob([new Uint8Array(e.currentTarget.result)], {type: "video/mp4"});
+	 	// let url = URL.createObjectURL(video);
 
-	 	socket.emit("urlBlob", url);
+	 	// socket.emit("urlBlob", url);
+
+
+
+	 	// let video = new Blob([new Uint8Array(e.currentTarget.result)], {type: "video/mp4"});
+	 	// let url = URL.createObjectURL(video);
+
+	 	// console.log(e.currentTarget.result + " client");
+
+	 	socket.emit("urlBlob", e.currentTarget.result);
+
+
+
+
+
 
 	 	// console.log(e.currentTarget.result);
 	 	// console.log(typeof e.currentTarget.result); //Es un string
@@ -137,8 +183,13 @@ socket.on("urlBlob", data=>{
 
 	// console.log(data);
 
-	const cargarBlob = document.querySelector(".videoYT");
-	cargarBlob.setAttribute("src", data);
+	// const cargarBlob = document.querySelector(".videoYT");
+	// cargarBlob.setAttribute("src", data);
+
+	const externo = document.querySelector(".videoExterno");
+	externo.setAttribute("src", "http://localhost:3000/content")
+
+
 })
 
 
@@ -160,7 +211,6 @@ archivo.addEventListener("change", e =>{
 
 	// const webVideo = document.querySelector(".video");
 	// webVideo.setAttribute("src", e.currentTarget.result);
-
 
 	cargar(objetivo);
 
@@ -294,13 +344,18 @@ addEventListener("keydown", e=>{
 	}
 
 	if(e.keyCode == 80){ //tecla "P"
+
+		const externo = document.querySelector(".videoExterno");
+		externo.setAttribute("src", "http://localhost:3000/content");
+
+
 		// localV = document.querySelector(".video");
 		// localV.setAttribute("src", data);
 
 		// capaVideo.setAttribute("src", "https://www.youtube.com/embed/3ZuY3aaG76Y?start=60")
-		const aver1 = capaVideo.getAttribute("src");
+		// const aver1 = capaVideo.getAttribute("src");
 
-		capaVideo.setAttribute("src", aver1 + "?t=60");
+		// capaVideo.setAttribute("src", aver1 + "?t=60");
 		// console.log(capaVideo.getAttribute("src"));
 
 		// capaVideo.play();

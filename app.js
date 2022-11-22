@@ -2,6 +2,15 @@ const path = require("path");
 const express = require("express");
 const app = express();
 
+const fs = require("fs");
+
+
+let palabras = "queso";
+
+
+
+
+
 
 
 //setting
@@ -10,6 +19,60 @@ app.set("PORT", process.env.PORT || 3000);
 
 //File static
 app.use(express.static(path.join(__dirname, "/public")));
+
+
+
+app.get("/:video", (req, res) =>{
+	// console.log(__dirname);
+	res.sendFile(__dirname + "/data.mp4");
+})
+
+
+// app.use(express.static(path.join(__dirname, "data.mp4")));
+
+// app.get("/:video", (req, res) =>{
+// 	console.log("Inicio")
+
+// 	res.send(`<!DOCTYPE html>
+// <html lang="en">
+// <head>
+// 	<meta charset="UTF-8">
+// 	<meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+// 	<title>Video</title>
+
+// 	<link rel="icon" href="Home.ico">
+
+// 	<link rel="stylesheet" type="text/css" href="index.css">
+
+// 	<link rel="stylesheet" type="text/css" href="../data.txt">
+// </head>
+// <body>
+
+// Aquí pondre el video
+
+// <video src="" class="videoYT video" controls=""></video>
+
+// 	<script type="text/javascript">
+
+// 	document.write(data.txt);
+
+// 		// const pal = ${palabras};
+// 		// console.log(pal);
+// 		//La variable no sabe que es la variable palabras
+
+// 		// let video = new Blob([new Uint8Array(${palabras})], {type: "video/mp4"});
+// 	 	// let url = URL.createObjectURL(video);
+
+// 	 	// console.log(url);
+
+// 	 	// const videoPunto = document.querySelector(".video");
+// 	 	// videoPunto.setAttribute("src", url);
+
+// 	</script>
+
+// </body>
+// </html>`);
+// });
 
 
 
@@ -25,14 +88,52 @@ const socket = require("socket.io");
 
 const io = socket(server, {maxHttpBufferSize: 1000000e8, pingTimeout: 960000})
 
-let video;
-let url;
+
+
 
 io.on("connection", (client)=>{
 	console.log("Nuevo cliente");
 
 
 	client.on("urlBlob", data=>{
+
+		// console.log(data + " servidor");
+
+
+		fs.writeFile("data.mp4", data, error =>{
+			if(error){
+			console.log(error)
+			}
+		});
+
+		console.log("Creo el archivo");
+
+		// io.emit("urlServer", id);
+
+
+
+
+		//https://nodejs.org/api/url.html#urlcreateobjecturlblob
+
+		// const {
+		//   Blob,
+		//   resolveObjectURL,
+		// } = require('node:buffer');
+
+		// const blob = new Blob([data], {type: "video/mp4"});
+		// const id = URL.createObjectURL(blob);
+
+		// // later...
+
+		// const otherBlob = resolveObjectURL(id);
+		// console.log(otherBlob.size + "recibido");
+
+		// console.log(id);
+
+		// io.emit("urlServer", id);
+
+
+
 
 		// console.log(typeof data);
 
@@ -45,7 +146,18 @@ io.on("connection", (client)=>{
 
 
 		// console.log(url);
+
+		// console.log(typeof data); //object
+
+		// palabras = data;
+
+		// console.log(palabras);
+
+		// console.log(url);
+
+
 		io.emit("urlBlob", data);
+
 	})
 
 
