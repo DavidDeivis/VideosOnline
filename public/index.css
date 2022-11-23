@@ -1,3 +1,13 @@
+*{
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+}
+
+body{
+	font-size: 17px;
+}
+
 .video{
 	/*height: 640px;*/
 	width: 480px;
@@ -5,6 +15,56 @@
 	background: white;
 }
 
-.capaVideo{
+.container-video{
+	width: 100%;
+	margin: auto;
+	background: black;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.videoExterno{
+
+	width: 560px;
+	height: 315px;
+	border: none;
 	
+}
+
+.mensaje, .name{
+
+	width: 200px;
+	font-size: 1rem;
+	padding-left: 5px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	margin-bottom: 5px;
+	
+
+}
+
+.enviarMensaje{
+	height: 25px;
+	width: 150px;
+
+}
+
+.container-mensaje{
+	width: 80%;
+	margin: 30px auto;
+	background: black;
+	color: white;
+	border: 1px solid blue;
+	padding: 0 10px;
+}
+
+p{
+	margin: 10px auto;
+}
+
+h4{
+	margin: 10px;
+	text-align: center;
 }

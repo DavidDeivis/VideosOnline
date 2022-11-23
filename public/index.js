@@ -1,4 +1,8 @@
 const socket = io();
+
+// console.log(socket);
+const miURL = socket.io.uri;
+
 //""https://proyecto-service.onrender.com""
 let reproducir;
 
@@ -14,6 +18,11 @@ const linkVideo = document.querySelector(".linkVideo");
 const button = document.querySelector(".buttonVideo");
 const capaVideo = document.querySelector(".capaVideo");
 const serverURL = document.querySelector(".video");
+
+const containerMensaje = document.querySelector(".container-mensaje");
+const name = document.querySelector(".name");
+const mensaje = document.querySelector(".mensaje");
+const enviarMensaje = document.querySelector(".enviarMensaje");
 
 // button.addEventListener("click", e=>{
 // 	const link = linkVideo.value;
@@ -40,6 +49,38 @@ const serverURL = document.querySelector(".video");
 // 	// capaVideo.setAttribute("src", link2);
 
 // })
+
+
+
+enviarMensaje.addEventListener("click", e=>{
+
+	if(mensaje.value != "" && name.value != ""){
+		socket.emit("enviarMensaje", {mensaje: mensaje.value, name: name.value});
+	}else{
+
+		if(mensaje.value == "" && name.value == ""){
+			alert("Introduce tu Nombre y Mensaje");
+			return;
+		}
+
+		if(mensaje.value == ""){
+			alert("Introduce tu mensaje")
+		}
+
+		if(name.value == ""){
+			alert("Introduce tu nombre")
+		}
+
+	}
+
+});
+
+socket.on("enviarMensaje", data =>{
+	crearMensaje = document.createElement("P");
+	crearMensaje.innerHTML = `${data.name}: ${data.mensaje}`;
+	containerMensaje.appendChild(crearMensaje);
+})
+
 
 socket.on("urlServer", data=>{
 	console.log(data);
@@ -118,6 +159,8 @@ function cargar(ar){
 
 	 	// console.log(e.currentTarget.result + " client");
 
+	 	// console.log(e.currentTarget.result);
+
 	 	socket.emit("urlBlob", e.currentTarget.result);
 
 
@@ -172,6 +215,8 @@ function cargar(ar){
 
 }
 
+const interno = document.querySelector(".container-video");
+
 socket.on("urlBlob", data=>{
 
 	// const parte1 = data.split("//");
@@ -186,8 +231,22 @@ socket.on("urlBlob", data=>{
 	// const cargarBlob = document.querySelector(".videoYT");
 	// cargarBlob.setAttribute("src", data);
 
-	const externo = document.querySelector(".videoExterno");
-	externo.setAttribute("src", "http://localhost:3000/content")
+	interno.innerHTML = "";
+
+	const externo = document.createElement("IFRAME");
+	externo.src = miURL + "/content";
+	externo.classList.add("nuevo");
+	externo.classList.add("activar");
+	externo.classList.add("videoExterno");
+
+	interno.appendChild(externo);
+
+	// const externo = document.querySelector(".videoExterno");
+	// externo.setAttribute("src", "");
+
+	// setTimeout(()=>{
+		// externo.setAttribute("src", miURL + "/content");
+	// }, 200)
 
 
 })
@@ -340,7 +399,8 @@ addEventListener("keydown", e=>{
 	// console.log(e.keyCode);
 
 	if(e.keyCode == 84){ //tecla "T"
-		socket.emit("localVideo", "yt5s.com-Combat gods.mp3");
+		const externo = document.querySelector(".nuevo");
+		externo.setAttribute("src", "http://localhost:3000/content");
 	}
 
 	if(e.keyCode == 80){ //tecla "P"

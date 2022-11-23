@@ -1,1 +1,0 @@
-var mensaje = "kekoman";

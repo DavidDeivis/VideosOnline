@@ -9,10 +9,6 @@ let palabras = "queso";
 
 
 
-
-
-
-
 //setting
 app.set("PORT", process.env.PORT || 3000);
 
@@ -21,10 +17,20 @@ app.set("PORT", process.env.PORT || 3000);
 app.use(express.static(path.join(__dirname, "/public")));
 
 
+// app.get("/entrada", (req, res) =>{
+// 	res.send("Welcome");
+// })
 
 app.get("/:video", (req, res) =>{
 	// console.log(__dirname);
-	res.sendFile(__dirname + "/data.mp4");
+
+	// res.send("holaa")
+	// console.log(__dirname);
+	console.log("visitoVideo");
+	res.sendFile(__dirname + "/data.mp4"); 
+	//El archivo lo tiene el que lo subió
+
+	//Solucion 1:
 })
 
 
@@ -95,9 +101,18 @@ io.on("connection", (client)=>{
 	console.log("Nuevo cliente");
 
 
+	client.on("enviarMensaje", data=>{
+
+		io.emit("enviarMensaje", data);
+
+	})
+
+
 	client.on("urlBlob", data=>{
 
 		// console.log(data + " servidor");
+
+		console.log("servidor");
 
 
 		fs.writeFile("data.mp4", data, error =>{
@@ -106,7 +121,9 @@ io.on("connection", (client)=>{
 			}
 		});
 
-		console.log("Creo el archivo");
+		// console.log("Creo el archivo");
+
+		io.emit("urlBlob", "data");
 
 		// io.emit("urlServer", id);
 
@@ -155,8 +172,6 @@ io.on("connection", (client)=>{
 
 		// console.log(url);
 
-
-		io.emit("urlBlob", data);
 
 	})
 
